@@ -30,25 +30,62 @@ func main() {
 		return
 	}
 
+	err = rpio.Open()
+	if err != nil {
+		panic(fmt.Sprint("unable to open gpio", err.Error()))
+	}
+
+	defer rpio.Close()
+
 	b.Handle("/hello", func(m *tb.Message) {
 
 		b.Send(m.Sender, "Hello I'm KBot! Call me simple Cabot")
 	})
 
-	b.Handle("/red", func(m *tb.Message) {
-		fmt.Println("opening gpio")
-		err := rpio.Open()
-		if err != nil {
-			panic(fmt.Sprint("unable to open gpio", err.Error()))
-		}
-
-		defer rpio.Close()
-		pin := rpio.Pin(18)
+	b.Handle("/redon", func(m *tb.Message) {
+		pin := rpio.Pin(17)
 		pin.Output()
+		b.Send(m.Sender, "RED ON!")
+		fmt.Println("RED ON")
 
-		pin.Toggle()
+	})
+	b.Handle("/redof", func(m *tb.Message) {
+		pin := rpio.Pin(17)
+		pin.Input()
+		b.Send(m.Sender, "RED OFF!")
+		fmt.Println("RED OFF")
 
-		b.Send(m.Sender, "Hello World!")
+	})
+
+	b.Handle("/amberon", func(m *tb.Message) {
+		pin := rpio.Pin(27)
+		pin.Output()
+		b.Send(m.Sender, "AMBER ON!")
+		fmt.Println("AMBER ON")
+
+	})
+	b.Handle("/amberof", func(m *tb.Message) {
+		pin := rpio.Pin(27)
+		pin.Input()
+		b.Send(m.Sender, "AMBER OFF!")
+		fmt.Println("AMBER OFF")
+
+	})
+
+	b.Handle("/greenon", func(m *tb.Message) {
+		pin := rpio.Pin(22)
+		pin.Output()
+		b.Send(m.Sender, "GREEN ON!")
+		fmt.Println("GREEN ON")
+
+	})
+
+	b.Handle("/greenof", func(m *tb.Message) {
+		pin := rpio.Pin(22)
+		pin.Input()
+		b.Send(m.Sender, "GREEN OFF!")
+		fmt.Println("GREEN OFF")
+
 	})
 
 	b.Start()
