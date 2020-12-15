@@ -35,9 +35,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/den-vasyliev/kbot:latest-${{ steps.vars.outputs.sha_short }}
-            denvasyliev/kbot:latest-${{ steps.vars.outputs.sha_short }}
-            
+            ghcr.io/den-vasyliev/kbot:latest-${{ steps.vars.outputs.sha_short }}            
           
       - name: update current version
         uses: mikefarah/yq@3.3.2
