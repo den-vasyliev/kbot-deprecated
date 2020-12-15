@@ -6,9 +6,19 @@ on:
       - 'src/**'
 
 jobs:
-   
-  test:
-    needs: build
+  IntegrationTesting:
+    needs: [build]
+    runs-on: bash
+    steps:
+      - run: echo first
+  UnitTesting:
+    needs: [build]
+    runs-on: bash
+    steps:
+      - run: echo second
+        
+  EnvTesting:
+    needs: IntegrationTesting
     runs-on: ubuntu-latest
     steps:
     - uses: debianmaster/actions-k3s@master
