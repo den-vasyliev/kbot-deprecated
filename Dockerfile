@@ -1,4 +1,4 @@
-FROM golang:1.8.3 as builder
+FROM golang:1.9 as builder
 WORKDIR /go/src/app
 COPY src .
 RUN go get -d -v .
