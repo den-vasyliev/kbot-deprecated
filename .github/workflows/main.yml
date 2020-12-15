@@ -13,9 +13,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v1
         
-      - name: d login
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
         if: "success() && github.ref == 'refs/heads/develop' "
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }
+#        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Declare SHA vars to use on other actions
         id: vars
@@ -23,17 +27,14 @@ jobs:
         run: |
           echo "GITHUB_SHA: ${GITHUB_SHA}"
           echo "::set-output name=sha_short::${GITHUB_SHA::7}"
-        
-      - name: d build
-        uses: docker/build-push-action@v1
-        if: "success() && github.ref == 'refs/heads/develop' "
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: den-vasyliev/kbot
-          path: ./
-          tags: latest-${{ steps.vars.outputs.sha_short }}
-          dockerfile: Dockerfile
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: denvasyliev/kbot:latest-${{ steps.vars.outputs.sha_short }}
           
       - name: update current version
         uses: mikefarah/yq@3.3.2
