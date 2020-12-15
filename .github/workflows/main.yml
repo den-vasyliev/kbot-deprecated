@@ -6,6 +6,22 @@ on:
       - 'src/**'
 
 jobs:
+  job_id:
+   
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: debianmaster/actions-k3s@master
+      id: k3s
+      with:
+        version: 'v0.9.1'
+    - run: |
+        kubectl get nodes
+        kubectl get nodes
+        kubectl get pods -A
+        sleep 20
+        kubectl get pods -A    
+     
   build:
     runs-on: ubuntu-latest
     steps:
