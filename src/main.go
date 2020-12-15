@@ -29,7 +29,7 @@ func main() {
 		log.Fatal(err)
 		return
 	}
-	/** uncomment for rpi
+	/** uncomment for rpi version
 		err = rpio.Open()
 		if err != nil {
 			panic(fmt.Sprint("unable to open gpio", err.Error()))
