@@ -8,12 +8,12 @@ on:
 jobs:
   IntegrationTesting:
     needs: [build]
-    runs-on: bash
+    runs-on: ubuntu-latest
     steps:
       - run: echo 0
   UnitTesting:
     needs: [build]
-    runs-on: bash
+    runs-on: ubuntu-latest
     steps:
       - run: echo 0
         
