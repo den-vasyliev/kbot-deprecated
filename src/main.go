@@ -1,5 +1,6 @@
 package main
-/** build with 1.9 **/
+
+/** build with 1.13 **/
 import (
 	"fmt"
 	"log"
