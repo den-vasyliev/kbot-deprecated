@@ -41,7 +41,7 @@ func main() {
 
 			b.Send(m.Sender, "Hello I'm KBot! Call me simple Cabot")
 		})
-	**/
+	uncomment for rpi **/
 	b.Handle("/redon", func(m *tb.Message) {
 		pin := rpio.Pin(17)
 		pin.Output()
