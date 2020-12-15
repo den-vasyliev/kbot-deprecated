@@ -10,12 +10,12 @@ jobs:
     needs: [build]
     runs-on: bash
     steps:
-      - run: echo first
+      - run: echo 0
   UnitTesting:
     needs: [build]
     runs-on: bash
     steps:
-      - run: echo second
+      - run: echo 0
         
   EnvTesting:
     needs: IntegrationTesting
