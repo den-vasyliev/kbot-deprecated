@@ -29,19 +29,19 @@ func main() {
 		log.Fatal(err)
 		return
 	}
+	/**
+		err = rpio.Open()
+		if err != nil {
+			panic(fmt.Sprint("unable to open gpio", err.Error()))
+		}
 
-	err = rpio.Open()
-	if err != nil {
-		panic(fmt.Sprint("unable to open gpio", err.Error()))
-	}
+		defer rpio.Close()
 
-	defer rpio.Close()
+		b.Handle("/hello", func(m *tb.Message) {
 
-	b.Handle("/hello", func(m *tb.Message) {
-
-		b.Send(m.Sender, "Hello I'm KBot! Call me simple Cabot")
-	})
-
+			b.Send(m.Sender, "Hello I'm KBot! Call me simple Cabot")
+		})
+	**/
 	b.Handle("/redon", func(m *tb.Message) {
 		pin := rpio.Pin(17)
 		pin.Output()
