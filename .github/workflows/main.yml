@@ -6,7 +6,6 @@ on:
       - 'src/**'
 
 jobs:
-  job_id:
    
   test:
     runs-on: ubuntu-latest
