@@ -1,6 +1,6 @@
 package main
 
-/** build with 1.13 0.0.6 **/
+/** build with 1.13 0.0.7 **/
 
 import (
 	"fmt"
