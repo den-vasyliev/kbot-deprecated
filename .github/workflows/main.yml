@@ -19,6 +19,7 @@ jobs:
         
   EnvTesting:
     needs: IntegrationTesting
+    environment: demo
     runs-on: ubuntu-latest
     steps:
     - uses: debianmaster/actions-k3s@master
