@@ -30,8 +30,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
           context: .
           file: ./Dockerfile
           push: false
