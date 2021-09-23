@@ -14,7 +14,7 @@ import (
 
 var (
 	// TeleTocken bot
-	TeleTocken = os.Getenv("TELE_TOKEN")
+	TeleToken = os.Getenv("TELE_TOKEN")
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 		// If field is empty it equals to "https://api.telegram.org".
 		URL: "",
 
-		Token:  TeleTocken,
+		Token:  TeleToken,
 		Poller: &tb.LongPoller{Timeout: 10 * time.Second},
 	})
 
@@ -31,7 +31,6 @@ func main() {
 		log.Fatal(err)
 		return
 	}
-	/** uncomment for rpi 
 		err = rpio.Open()
 		if err != nil {
 			panic(fmt.Sprint("unable to open gpio", err.Error()))
@@ -43,15 +42,15 @@ func main() {
 
 			b.Send(m.Sender, "Hello I'm KBot! Call me simple Cabot")
 		})
-	**/
-	b.Handle("/redon", func(m *tb.Message) {
+
+	b.Handle("/r", func(m *tb.Message) {
 		pin := rpio.Pin(17)
 		pin.Output()
 		b.Send(m.Sender, "RED ON!")
 		fmt.Println("RED ON")
 
 	})
-	b.Handle("/redof", func(m *tb.Message) {
+	b.Handle("/rr", func(m *tb.Message) {
 		pin := rpio.Pin(17)
 		pin.Input()
 		b.Send(m.Sender, "RED OFF!")
@@ -59,14 +58,14 @@ func main() {
 
 	})
 
-	b.Handle("/amberon", func(m *tb.Message) {
+	b.Handle("/a", func(m *tb.Message) {
 		pin := rpio.Pin(27)
 		pin.Output()
 		b.Send(m.Sender, "AMBER ON!")
 		fmt.Println("AMBER ON")
 
 	})
-	b.Handle("/amberof", func(m *tb.Message) {
+	b.Handle("/aa", func(m *tb.Message) {
 		pin := rpio.Pin(27)
 		pin.Input()
 		b.Send(m.Sender, "AMBER OFF!")
@@ -74,7 +73,7 @@ func main() {
 
 	})
 
-	b.Handle("/greenon", func(m *tb.Message) {
+	b.Handle("/g", func(m *tb.Message) {
 		pin := rpio.Pin(22)
 		pin.Output()
 		b.Send(m.Sender, "GREEN ON!")
@@ -82,7 +81,7 @@ func main() {
 
 	})
 
-	b.Handle("/greenof", func(m *tb.Message) {
+	b.Handle("/gg", func(m *tb.Message) {
 		pin := rpio.Pin(22)
 		pin.Input()
 		b.Send(m.Sender, "GREEN OFF!")

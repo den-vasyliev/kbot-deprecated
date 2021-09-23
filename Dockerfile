@@ -3,7 +3,7 @@ WORKDIR /go/src/app
 COPY src .
 RUN go get -d -v .
 RUN export GOPATH=/go
-RUN CGO_ENABLED=0 GOOS=linux go build -o app -a -installsuffix cgo
+RUN CGO_ENABLED=0 GOOS=linux  GOARCH=arm GOARM=7 go build -o app -a -installsuffix cgo
 
 FROM scratch
 WORKDIR /
