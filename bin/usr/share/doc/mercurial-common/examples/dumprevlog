@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+# Dump revlogs as raw data stream
+# $ find .hg/store/ -name "*.i" | xargs dumprevlog > repo.dump
+
+from __future__ import absolute_import, print_function
+
+import sys
+from mercurial import (
+    encoding,
+    node,
+    pycompat,
+    revlog,
+)
+from mercurial.utils import (
+    procutil,
+)
+
+for fp in (sys.stdin, sys.stdout, sys.stderr):
+    procutil.setbinary(fp)
+
+def binopen(path, mode=b'rb'):
+    if b'b' not in mode:
+        mode = mode + b'b'
+    return open(path, pycompat.sysstr(mode))
+
+def printb(data, end=b'\n'):
+    sys.stdout.flush()
+    pycompat.stdout.write(data + end)
+
+for f in sys.argv[1:]:
+    r = revlog.revlog(binopen, encoding.strtolocal(f))
+    print("file:", f)
+    for i in r:
+        n = r.node(i)
+        p = r.parents(n)
+        d = r.revision(n)
+        printb(b"node: %s" % node.hex(n))
+        printb(b"linkrev: %d" % r.linkrev(i))
+        printb(b"parents: %s %s" % (node.hex(p[0]), node.hex(p[1])))
+        printb(b"length: %d" % len(d))
+        printb(b"-start-")
+        printb(d)
+        printb(b"-end-")

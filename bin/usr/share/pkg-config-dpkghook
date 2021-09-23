@@ -1,0 +1,59 @@
+#! /usr/bin/perl
+#
+# Sets up /usr/bin/*-pkg-config symlinks to point to the cross wrapper.
+#
+# It is called from dpkg --post-invoke and from postinst with the "update"
+# argument to instate the necessary symlinks.
+#
+# It is called from prerm with the "remove" argument to remove all symlinks.
+#
+
+use strict;
+use warnings;
+
+use Dpkg::Arch qw(debarch_to_gnutriplet);
+use Dpkg::ErrorHandling qw(error warning);
+
+my $crosswrapper = "/usr/share/pkg-config-crosswrapper";
+
+my $action = $ARGV[0];
+error("parameter must be 'remove' or 'update'")
+  unless defined $action && ($action eq "remove" || $action eq "update");
+
+my $arch = `dpkg --print-architecture`;
+error('dpkg --print-architecture failed') if $? >> 8;
+my @architectures = `dpkg --print-foreign-architectures`;
+error('dpkg --print-foreign-architectures failed') if $? >> 8;
+push @architectures, $arch;
+chomp @architectures;
+
+my %gnutriplets;
+foreach my $arch (@architectures) {
+     my $triplet = debarch_to_gnutriplet($arch);
+     if (not defined($triplet)) {
+	     warning("Architecture $arch not defined in architecture tables, ignored");
+	     next;
+     }
+     $gnutriplets{$triplet} = 1;
+}
+
+my %symlinks = map { $_ => 1 } </usr/bin/*-pkg-config>;
+
+foreach my $symlink (keys %symlinks) {
+  $symlink =~ m,^/usr/bin/([^-]+-[^-]+-[^-]+)-pkg-config, or next;
+  next if exists $gnutriplets{$1} && $action eq "update";
+  next unless -l $symlink;
+  next unless readlink $symlink eq $crosswrapper;
+  unlink $symlink or
+    error("failed to remove symlink $symlink: $!");
+}
+
+if ($action eq 'update') {
+  foreach (keys %gnutriplets) {
+    my $linktarget = "/usr/bin/${_}-pkg-config";
+    next if exists $symlinks{$linktarget};
+    next if -e $linktarget;
+    symlink $crosswrapper, $linktarget or
+      error("failed to create symlink $linktarget to $crosswrapper: $!");
+  }
+}

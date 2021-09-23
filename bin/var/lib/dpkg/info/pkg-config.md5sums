@@ -1,0 +1,14 @@
+3a7df71c9f096a0c9477f5c6d5f9b8df  usr/bin/pkg-config
+3a7df71c9f096a0c9477f5c6d5f9b8df  usr/bin/x86_64-pc-linux-gnu-pkg-config
+978c5c8ea754aa5bfb217269b92f1fc6  usr/lib/pkg-config.multiarch
+2d5658e268ba1d341449f943fb9569e2  usr/share/aclocal/pkg.m4
+8ff6019ef7d4da20c4e9f6be484b272a  usr/share/doc/pkg-config/AUTHORS
+0f8d4547a4c39fa8965c3dcbc956843e  usr/share/doc/pkg-config/NEWS.gz
+0faf68361b46086bd7f87596416f6910  usr/share/doc/pkg-config/README
+cac01483401202971e01340050a5d919  usr/share/doc/pkg-config/changelog.Debian.gz
+cafeb1a10c284309d019836a0909ebd7  usr/share/doc/pkg-config/changelog.gz
+540e71c81eb4170a9e6267ef45d3ca7b  usr/share/doc/pkg-config/copyright
+d0081173d2ef4a616c15fc4dec9253b4  usr/share/doc/pkg-config/pkg-config-guide.html
+13411bf49539e6296d5c60afc23574fe  usr/share/man/man1/pkg-config.1.gz
+9138cdcceda7701616036a71cce926e8  usr/share/pkg-config-crosswrapper
+589e597b308455fc77ead5a82a0b9cf1  usr/share/pkg-config-dpkghook

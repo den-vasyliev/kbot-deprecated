@@ -1,0 +1,2 @@
+gcc-8 binary: hardening-no-pie
+gcc-8 binary: binary-without-manpage

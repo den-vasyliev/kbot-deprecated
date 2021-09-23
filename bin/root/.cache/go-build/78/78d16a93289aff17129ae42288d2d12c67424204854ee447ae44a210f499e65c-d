@@ -1,0 +1,5 @@
+./mac_noasm.go
+./poly1305.go
+./sum_arm.go
+./sum_generic.go
+./sum_arm.s

@@ -1,0 +1,7 @@
+98defe5c716fdaf939c36ebcffd49611  usr/lib/x86_64-linux-gnu/libapr-1.so.0.6.5
+05e57d7f01f67faf0a62797a2c2d781c  usr/share/doc/libapr1/NOTICE
+c89b0e565e82a54f416f0e24ec4e84f9  usr/share/doc/libapr1/changelog.Debian.amd64.gz
+5f4f434fc90038d73a486aa6e4fd8c4d  usr/share/doc/libapr1/changelog.Debian.gz
+5973c3e3957f8e97e7a184511eb222fe  usr/share/doc/libapr1/changelog.gz
+26c2c7ddf7d00715f818f5094b288d84  usr/share/doc/libapr1/copyright
+b6372415ff6072588dec2c4d93d781c0  usr/share/lintian/overrides/libapr1
