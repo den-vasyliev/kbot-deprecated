@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kabot
+  name: kbot
   labels:
-    app: kabot
+    app: kbot
 spec:
   selector:
     matchLabels:
-      app: kabot
+      app: kbot
   template:
     metadata:
-      name: kabot
+      name: kbot
       labels:
-        app: kabot
+        app: kbot
     spec:
       containers:
       - env:
@@ -20,10 +20,10 @@ spec:
           valueFrom:
             secretKeyRef:
               key: token
-              name: kabot
+              name: kbot
         image: denvasyliev/kbot:v2.0.12
         imagePullPolicy: IfNotPresent
-        name: kabot
+        name: kbot
         resources: {}
         securityContext:
           privileged: true
