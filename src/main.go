@@ -1,6 +1,6 @@
 package main
 
-/** build with 1.13 0.0.18 **/
+
 
 import (
 	"fmt"
@@ -15,6 +15,8 @@ import (
 var (
 	// TeleToken bot
 	TeleToken = os.Getenv("TELE_TOKEN")
+	//Version
+	Version = "2.0.18"
 )
 
 func main() {
@@ -40,7 +42,7 @@ func main() {
 
 		b.Handle("/hello", func(m *tb.Message) {
 
-			b.Send(m.Sender, "Hello I'm Kbot! Usage: r,a,g and rr,aa,gg")
+			b.Send(m.Sender, fmt.Printf("Hello I'm Kbot %s! Usage: r,a,g and rr,aa,gg", Version))
 		})
 
 	b.Handle("/r", func(m *tb.Message) {
