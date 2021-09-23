@@ -23,8 +23,11 @@ jobs:
      - name: Run unit tests
        run: make unit-test
  
-     - name: Docker login
-       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+     - name: Login to Docker Hub
+       uses: docker/login-action@v1
+       with:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_TOKEN }}
  
      - name: Declare SHA vars to use on other actions
        id: vars
