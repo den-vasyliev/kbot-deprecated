@@ -16,7 +16,7 @@ var (
 	// TeleToken bot
 	TeleToken = os.Getenv("TELE_TOKEN")
 	//Version
-	Version = "2.0.18"
+	Version = "2.0.19"
 )
 
 func main() {
