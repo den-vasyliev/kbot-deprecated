@@ -1,6 +1,6 @@
 package main
 
-/** build with 1.13 0.0.14 **/
+/** build with 1.13 0.0.15 **/
 
 import (
 	"fmt"
@@ -13,12 +13,10 @@ import (
 )
 
 var (
-	// TeleTocken bot
+	// TeleToken bot
 	TeleToken = os.Getenv("TELE_TOKEN")
 )
-func forTest(){
-	fmt.Println("OK")
-}
+
 func main() {
 	b, err := tb.NewBot(tb.Settings{
 		// You can also set custom API URL.
@@ -42,7 +40,7 @@ func main() {
 
 		b.Handle("/hello", func(m *tb.Message) {
 
-			b.Send(m.Sender, "Hello I'm KBot! Call me simple Cabot")
+			b.Send(m.Sender, "Hello I'm Kbot! Usage: r,a,g and rr,aa,gg")
 		})
 
 	b.Handle("/r", func(m *tb.Message) {
@@ -92,4 +90,8 @@ func main() {
 	})
 
 	b.Start()
+}
+
+func forTest(){
+	fmt.Println("OK")
 }
