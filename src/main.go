@@ -16,7 +16,9 @@ var (
 	// TeleTocken bot
 	TeleToken = os.Getenv("TELE_TOKEN")
 )
-
+func forTest(){
+	fmt.Println("OK")
+}
 func main() {
 	b, err := tb.NewBot(tb.Settings{
 		// You can also set custom API URL.
