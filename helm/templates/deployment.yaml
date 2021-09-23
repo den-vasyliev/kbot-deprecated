@@ -1,10 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kbot
+  name: kabot
+  labels:
+    app: kabot
 spec:
+  selector:
+    matchLabels:
+      app: kabot
   template:
+    metadata:
+      name: kabot
+      labels:
+        app: kabot
     spec:
       containers:
-        - name: kbot
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+      - env:
+        - name: TELE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: token
+              name: kabot
+        image: denvasyliev/kbot:v2.0.12
+        imagePullPolicy: IfNotPresent
+        name: kabot
+        resources: {}
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /dev/mem
+          name: dev-mem
+      volumes:
+      - hostPath:
+          path: /dev/mem
+          type: ""
+        name: dev-mem
