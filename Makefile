@@ -9,8 +9,7 @@ BUILDER=docker
 
 build:
 	@echo "Let's build it"
-	@export APP_BUILD_INFO=$(git rev-parse HEAD|cut -c1-7) 
-	@${BUILDER} build . --no-cache
+	${BUILDER} build . --no-cache --build-arg APP_BUILD_INFO=${VERSION}
 
 unit-test:
 	@echo "Run tests here..."
