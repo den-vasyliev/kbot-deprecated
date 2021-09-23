@@ -8,4 +8,5 @@ RUN CGO_ENABLED=0 GOOS=linux  GOARCH=arm GOARM=7 go build -o app -a -installsuff
 FROM scratch
 WORKDIR /
 COPY --from=builder /go/src/app/app .
+COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 ENTRYPOINT ["/app"]
