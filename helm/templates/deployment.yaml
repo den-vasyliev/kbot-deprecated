@@ -21,7 +21,7 @@ spec:
             secretKeyRef:
               key: token
               name: kbot
-        image: denvasyliev/kbot:v2.0.12
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
         name: kbot
         resources: {}
