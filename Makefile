@@ -10,10 +10,7 @@ BUILDER=docker
 build:
 	@echo "Let's build it"
 	@export APP_BUILD_INFO=$(git rev-parse HEAD|cut -c1-7) 
-	@export DOCKER_BUILDKIT=1
-	@${BUILDER} build \
-	--target build -o bin/ . \
-	--platform ${PLATFORM}
+	@${BUILDER} build . --no-cache
 
 unit-test:
 	@echo "Run tests here..."

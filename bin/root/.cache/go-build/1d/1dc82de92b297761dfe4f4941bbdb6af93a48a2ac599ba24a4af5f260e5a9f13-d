@@ -1,5 +1,0 @@
-./block.go
-./cipher.go
-./cipher_generic.go
-./const.go
-./modes.go

@@ -1,9 +1,0 @@
-#! /bin/sh
-
-set -e
-
-
-
-if test "$1" = remove; then
-    /usr/share/pkg-config-dpkghook remove
-fi
