@@ -1,4 +1,4 @@
-name: KBOT-CI
+name: Continuous Integration
 
 on: 
   push:
@@ -6,82 +6,68 @@ on:
       - 'src/**'
 
 jobs:
-  IntegrationTesting:
-    needs: [build]
+  ci:
+    name: CI
     runs-on: ubuntu-latest
+    env:
+       DOCKER_BUILDKIT: "1"
+ 
     steps:
-      - run: echo 0
-  UnitTesting:
-    needs: [build]
+ 
+     - name: Checkout code
+       uses: actions/checkout@v2
+ 
+     - name: Run linter
+       run: make lint
+ 
+     - name: Run unit tests
+       run: make unit-test
+ 
+     - name: Docker login
+       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+ 
+     - name: Declare SHA vars to use on other actions
+       id: vars
+       shell: bash
+       run: |
+         echo "GITHUB_SHA: ${GITHUB_SHA}"
+         echo "::set-output name=sha_short::${GITHUB_SHA::7}"  
+ 
+     - name: Build and Push
+       uses: docker/build-push-action@v2
+       with:
+         push: true
+         tags: denvasyliev/kbot:build-${{ steps.vars.outputs.sha_short }}
+  cd:
+    name: CD
+    needs: ci
     runs-on: ubuntu-latest
+ 
     steps:
-      - run: echo 0
+   
+     - name: Checkout code
+       uses: actions/checkout@v2
+   
+     - name: Declare SHA vars to use on other actions
+       id: vars
+       shell: bash
+       run: |
+         echo "GITHUB_SHA: ${GITHUB_SHA}"
+         echo "::set-output name=sha_short::${GITHUB_SHA::7}"
+   
+     - name: update current version
+       uses: mikefarah/yq@3.3.2
+       with: 
+         cmd: yq w -i helm/values.yaml image.tag build-${{ steps.vars.outputs.sha_short }}
         
-  EnvTesting:
-    needs: IntegrationTesting
-    environment: demo
-    runs-on: ubuntu-latest
-    steps:
-    - uses: debianmaster/actions-k3s@master
-      id: k3s
-      with:
-        version: 'v0.9.1'
-    - run: |
-        kubectl get nodes
-        kubectl get nodes
-        kubectl get pods -A
-        sleep 20
-        kubectl get pods -A    
-     
-  build:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: checkout
-        uses: actions/checkout@v1
-        
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        if: "success() && github.ref == 'refs/heads/develop' "
-        with:
-          registry: ghcr.io  
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
-
-      - name: Declare SHA vars to use on other actions
-        id: vars
-        shell: bash
-        run: |
-          echo "GITHUB_SHA: ${GITHUB_SHA}"
-          echo "::set-output name=sha_short::${GITHUB_SHA::7}"
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: false
-          tags: |
-            ghcr.io/den-vasyliev/kbot:latest-${{ steps.vars.outputs.sha_short }}
-      - run: docker push ghcr.io/den-vasyliev/kbot:latest-${{ steps.vars.outputs.sha_short }}         
-          
-      - name: update current version
-        uses: mikefarah/yq@3.3.2
-        if: "success() && github.ref == 'refs/heads/develop' "
-        with: 
-          cmd: yq w -i kbot-helm/values.yaml image.tag latest-${{ steps.vars.outputs.sha_short }}
-        
-      - name: setup git config
-        if: "success() && github.ref == 'refs/heads/develop' "
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-          git add kbot-helm/values.yaml
-          git commit -m "update code version to ${{ steps.vars.outputs.sha_short }}"
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: develop
-        
+     - name: setup git config
+       run: |
+         git config user.name "GitHub Actions"
+         git config user.email "<>"
+         git add helm/values.yaml
+         git commit -m "update code version to ${{ steps.vars.outputs.sha_short }}"
+     - name: Push changes
+       uses: ad-m/github-push-action@master
+       with:
+         github_token: ${{ secrets.ACTIONS_TOKEN }}
+         branch: master
