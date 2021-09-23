@@ -42,7 +42,7 @@ func main() {
 
 		b.Handle("/hello", func(m *tb.Message) {
 
-			b.Send(m.Sender, fmt.Printf("Hello I'm Kbot %s! Usage: r,a,g and rr,aa,gg", Version))
+			b.Send(m.Sender, fmt.Sprintf("Hello I'm Kbot %s! Usage: r,a,g and rr,aa,gg", Version) )
 		})
 
 	b.Handle("/r", func(m *tb.Message) {
