@@ -9,7 +9,7 @@ RUN go get -d -v .
 FROM builder AS build
 ARG TARGETOS
 ARG TARGETARCH
-RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM=7 go build -o app -a -installsuffix cgo -ldflags "-X main.Version=$APP_BUILD_INFO" -v ./...
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=arm64 go build -o app -a -installsuffix cgo -ldflags "-X main.Version=$APP_BUILD_INFO" -v ./...
 
 FROM golangci/golangci-lint:v1.27-alpine AS lint-base
 
